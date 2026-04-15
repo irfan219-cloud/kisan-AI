@@ -1,0 +1,232 @@
+# Kisan Mitra AI - Git Ignore File
+
+# ===========================
+# .NET / C# Backend
+# ===========================
+## Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio cache/options
+.vs/
+.vscode/settings.json
+.vscode/launch.json
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Build Results
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+## NuGet Packages
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+## CDK Output
+cdk.out/
+infrastructure/cdk.out/
+
+# ===========================
+# React / Node.js Frontend
+# ===========================
+## Dependencies
+node_modules/
+react-frontend/node_modules/
+/.pnp
+.pnp.js
+
+## Production build
+react-frontend/dist/
+react-frontend/build/
+
+## Testing
+coverage/
+react-frontend/coverage/
+*.lcov
+
+## Misc
+.DS_Store
+*.pem
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+## Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+react-frontend/.env.local
+react-frontend/.env.development.local
+react-frontend/.env.test.local
+react-frontend/.env.production.local
+
+# ===========================
+# AWS & Credentials
+# ===========================
+## AWS credentials (NEVER commit these!)
+**/appsettings.Development.json
+**/appsettings.*.json
+!**/appsettings.json
+aws-exports.js
+amplify-export.json
+.aws-sam/
+
+## CDK Context
+cdk.context.json
+
+# ===========================
+# IDE & Editor
+# ===========================
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json
+
+# ===========================
+# OS Files
+# ===========================
+Thumbs.db
+Desktop.ini
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ===========================
+# Temporary & Cache
+# ===========================
+*.cache
+*.temp
+tmp/
+temp/
+
+# ===========================
+# Documentation (Keep these!)
+# ===========================
+# We want to keep all .md files for documentation
+# !*.md
+
+# ===========================
+# PowerShell Scripts (Keep these!)
+# ===========================
+# Keep all .ps1 scripts for deployment
+# !*.ps1
+
+# ===========================
+# Project Specific
+# ===========================
+## Local test data
+sample-soil-health-card.txt
+test-data/
+
+## Generated files
+react-frontend/src/aws-exports.js
+
+# ===========================
+# Temporary & Test Files
+# ===========================
+## Zip files
+*.zip
+
+## Test JSON files
+test-*.json
+test_*.json
+*_test.json
+rekognition_*.json
+rekognition_*.txt
+response.json
+lambda-test-*.json
+mandi_prices_sample.json
+potato_noida_query.json
+
+## Temporary folders
+temp_check*/
+publish/
+
+## Log files
+*.txt
+!requirements.txt
+demo-data-log.txt
+cognito-role-arn.txt
+
+## Old/deprecated documentation (keep only essential docs)
+*_SUMMARY.md
+*_STATUS.md
+*_COMPLETE.md
+*_SUCCESS.md
+*_FIXED.md
+*_APPLIED.md
+*_ENABLED.md
+*_VERIFIED.md
+*_WORKING.md
+*_ISSUE.md
+*_ISSUES.md
+*_FIX.md
+*_FIXES.md
+SESSION_SUMMARY.md
+TODAYS_ACCOMPLISHMENTS.md
+
+## Deployment artifacts
+lambda-policy.json
+trust-policy.json
+
+## SoapUI projects
+*.xml
+
+## PDF files (unless you want to keep them)
+*.pdf

@@ -1,0 +1,66 @@
+{
+  "app": {
+    "title": "કિસાન મિત્ર AI",
+    "subtitle": "સ્માર્ટ ખેતી સહાયક",
+    "loading": "લોડ થઈ રહ્યું છે...",
+    "error": "ભૂલ",
+    "success": "સફળતા",
+    "retry": "ફરી પ્રયાસ કરો",
+    "cancel": "રદ કરો",
+    "save": "સાચવો",
+    "delete": "કાઢી નાખો",
+    "edit": "સંપાદિત કરો",
+    "close": "બંધ કરો",
+    "confirm": "પુષ્ટિ કરો",
+    "back": "પાછળ",
+    "next": "આગળ",
+    "submit": "સબમિટ કરો",
+    "search": "શોધો",
+    "filter": "ફિલ્ટર",
+    "export": "નિકાસ",
+    "download": "ડાઉનલોડ",
+    "upload": "અપલોડ",
+    "select": "પસંદ કરો",
+    "clear": "સાફ કરો",
+    "apply": "લાગુ કરો",
+    "viewDetails": "વિગતો જુઓ",
+    "noData": "કોઈ ડેટા ઉપલબ્ધ નથી",
+    "offline": "તમે ઓફલાઇન છો",
+    "online": "તમે પાછા ઓનલાઇન છો"
+  },
+  "nav": {
+    "dashboard": "ડેશબોર્ડ",
+    "soilAnalysis": "માટી વિશ્લેષણ",
+    "qualityGrading": "ગુણવત્તા ગ્રેડિંગ",
+    "voiceQueries": "અવાજ પ્રશ્નો",
+    "plantingAdvisory": "વાવેતર સલાહ",
+    "history": "ઇતિહાસ",
+    "settings": "સેટિંગ્સ",
+    "logout": "લૉગઆઉટ",
+    "profile": "પ્રોફાઇલ"
+  },
+  "auth": {
+    "login": "લૉગિન",
+    "logout": "લૉગઆઉટ",
+    "phoneNumber": "ફોન નંબર",
+    "password": "પાસવર્ડ",
+    "loginButton": "સાઇન ઇન કરો",
+    "loggingIn": "સાઇન ઇન થઈ રહ્યું છે...",
+    "loginSuccess": "લૉગિન સફળ",
+    "loginError": "લૉગિન નિષ્ફળ. કૃપા કરીને તમારી ઓળખપત્રો તપાસો।",
+    "sessionExpired": "તમારું સત્ર સમાપ્ત થયું છે. કૃપા કરીને ફરીથી લૉગિન કરો।",
+    "required": "આ ફીલ્ડ જરૂરી છે",
+    "invalidPhoneNumber": "કૃપા કરીને માન્ય ફોન નંબર દાખલ કરો"
+  },
+  "dashboard": {
+    "welcome": "સ્વાગત છે, {{name}}",
+    "recentActivity": "તાજેતરની પ્રવૃત્તિ",
+    "quickActions": "ઝડપી ક્રિયાઓ",
+    "notifications": "સૂચનાઓ"
+  },
+  "errors": {
+    "generic": "એક ભૂલ આવી. કૃપા કરીને ફરી પ્રયાસ કરો।",
+    "network": "નેટવર્ક ભૂલ. કૃપા કરીને તમારું કનેક્શન તપાસો।",
+    "contactSupport": "જો સમસ્યા ચાલુ રહે, તો કૃપા કરીને સપોર્ટનો સંપર્ક કરો।"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "app": {
+    "title": "किसान मित्र AI",
+    "subtitle": "स्मार्ट शेती सहाय्यक",
+    "loading": "लोड होत आहे...",
+    "error": "त्रुटी",
+    "success": "यश",
+    "retry": "पुन्हा प्रयत्न करा",
+    "cancel": "रद्द करा",
+    "save": "जतन करा",
+    "delete": "हटवा",
+    "edit": "संपादित करा",
+    "close": "बंद करा",
+    "confirm": "पुष्टी करा",
+    "back": "मागे",
+    "next": "पुढे",
+    "submit": "सबमिट करा",
+    "search": "शोधा",
+    "filter": "फिल्टर",
+    "export": "निर्यात",
+    "download": "डाउनलोड",
+    "upload": "अपलोड",
+    "select": "निवडा",
+    "clear": "साफ करा",
+    "apply": "लागू करा",
+    "viewDetails": "तपशील पहा",
+    "noData": "डेटा उपलब्ध नाही",
+    "offline": "तुम्ही ऑफलाइन आहात",
+    "online": "तुम्ही परत ऑनलाइन आहात"
+  },
+  "nav": {
+    "dashboard": "डॅशबोर्ड",
+    "soilAnalysis": "माती विश्लेषण",
+    "qualityGrading": "गुणवत्ता ग्रेडिंग",
+    "voiceQueries": "आवाज प्रश्न",
+    "plantingAdvisory": "लागवड सल्ला",
+    "history": "इतिहास",
+    "settings": "सेटिंग्ज",
+    "logout": "लॉगआउट",
+    "profile": "प्रोफाइल"
+  },
+  "auth": {
+    "login": "लॉगिन",
+    "logout": "लॉगआउट",
+    "phoneNumber": "फोन नंबर",
+    "password": "पासवर्ड",
+    "loginButton": "साइन इन करा",
+    "loggingIn": "साइन इन होत आहे...",
+    "loginSuccess": "लॉगिन यशस्वी",
+    "loginError": "लॉगिन अयशस्वी. कृपया आपली ओळखपत्रे तपासा।",
+    "sessionExpired": "तुमचे सत्र संपले आहे. कृपया पुन्हा लॉगिन करा।",
+    "required": "हे फील्ड आवश्यक आहे",
+    "invalidPhoneNumber": "कृपया वैध फोन नंबर प्रविष्ट करा"
+  },
+  "dashboard": {
+    "welcome": "स्वागत आहे, {{name}}",
+    "recentActivity": "अलीकडील क्रियाकलाप",
+    "quickActions": "द्रुत क्रिया",
+    "notifications": "सूचना"
+  },
+  "errors": {
+    "generic": "एक त्रुटी आली. कृपया पुन्हा प्रयत्न करा।",
+    "network": "नेटवर्क त्रुटी. कृपया आपले कनेक्शन तपासा।",
+    "contactSupport": "समस्या कायम राहिल्यास, कृपया समर्थनाशी संपर्क साधा।"
+  }
+}

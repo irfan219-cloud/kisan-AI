@@ -1,0 +1,368 @@
+{
+  "Comment": "Krishi-Vani Voice Query Processing Workflow",
+  "StartAt": "TranscribeAudio",
+  "States": {
+    "TranscribeAudio": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::aws-sdk:transcribe:startTranscriptionJob",
+      "Parameters": {
+        "TranscriptionJobName.$": "$.jobName",
+        "LanguageCode.$": "$.languageCode",
+        "Media": {
+          "MediaFileUri.$": "$.audioS3Uri"
+        },
+        "MediaFormat": "mp3",
+        "Settings": {
+          "ShowSpeakerLabels": false,
+          "MaxSpeakerLabels": 1
+        }
+      },
+      "ResultPath": "$.transcriptionJob",
+      "Next": "WaitForTranscription",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "TranscriptionFailed",
+          "ResultPath": "$.error"
+        }
+      ]
+    },
+    "WaitForTranscription": {
+      "Type": "Wait",
+      "Seconds": 3,
+      "Next": "GetTranscriptionResult"
+    },
+    "GetTranscriptionResult": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::aws-sdk:transcribe:getTranscriptionJob",
+      "Parameters": {
+        "TranscriptionJobName.$": "$.jobName"
+      },
+      "ResultPath": "$.transcriptionResult",
+      "Next": "CheckTranscriptionStatus",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ]
+    },
+    "CheckTranscriptionStatus": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.transcriptionResult.TranscriptionJob.TranscriptionJobStatus",
+          "StringEquals": "COMPLETED",
+          "Next": "ParseQuery"
+        },
+        {
+          "Variable": "$.transcriptionResult.TranscriptionJob.TranscriptionJobStatus",
+          "StringEquals": "FAILED",
+          "Next": "TranscriptionFailed"
+        }
+      ],
+      "Default": "WaitForTranscription"
+    },
+    "ParseQuery": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "QueryParserFunction",
+        "Payload": {
+          "transcriptionUri.$": "$.transcriptionResult.TranscriptionJob.Transcript.TranscriptFileUri",
+          "farmerId.$": "$.farmerId"
+        }
+      },
+      "ResultPath": "$.parsedQuery",
+      "Next": "CheckClarificationNeeded",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "ParsingFailed",
+          "ResultPath": "$.error"
+        }
+      ]
+    },
+    "CheckClarificationNeeded": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.parsedQuery.requiresClarification",
+          "BooleanEquals": true,
+          "Next": "RequestClarification"
+        }
+      ],
+      "Default": "RetrievePrices"
+    },
+    "RequestClarification": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "ClarificationHandlerFunction",
+        "Payload.$": "$"
+      },
+      "ResultPath": "$.clarificationResponse",
+      "Next": "SynthesizeClarification",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ]
+    },
+    "SynthesizeClarification": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::aws-sdk:polly:synthesizeSpeech",
+      "Parameters": {
+        "Text.$": "$.parsedQuery.clarificationPrompt",
+        "VoiceId.$": "$.voiceId",
+        "OutputFormat": "mp3",
+        "Engine": "neural"
+      },
+      "ResultPath": "$.synthesizedClarification",
+      "End": true
+    },
+    "RetrievePrices": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "PriceRetrieverFunction",
+        "Payload": {
+          "commodity.$": "$.parsedQuery.commodity",
+          "location.$": "$.parsedQuery.location",
+          "farmerId.$": "$.farmerId"
+        }
+      },
+      "ResultPath": "$.prices",
+      "Next": "GenerateResponse",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "PriceRetrievalFailed",
+          "ResultPath": "$.error"
+        }
+      ]
+    },
+    "GenerateResponse": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "ResponseGeneratorFunction",
+        "Payload": {
+          "prices.$": "$.prices.Payload",
+          "parsedQuery.$": "$.parsedQuery.Payload",
+          "dialect.$": "$.dialect"
+        }
+      },
+      "ResultPath": "$.response",
+      "Next": "SynthesizeVoice",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "ResponseGenerationFailed",
+          "ResultPath": "$.error"
+        }
+      ]
+    },
+    "SynthesizeVoice": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::aws-sdk:polly:synthesizeSpeech",
+      "Parameters": {
+        "Text.$": "$.response.content[0].text",
+        "VoiceId.$": "$.voiceId",
+        "OutputFormat": "mp3",
+        "Engine": "neural",
+        "LanguageCode.$": "$.languageCode"
+      },
+      "ResultPath": "$.synthesizedAudio",
+      "Next": "StoreAudioToS3",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "Next": "SynthesisFailed",
+          "ResultPath": "$.error"
+        }
+      ]
+    },
+    "StoreAudioToS3": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "AudioStorageFunction",
+        "Payload": {
+          "audioStream.$": "$.synthesizedAudio.AudioStream",
+          "farmerId.$": "$.farmerId",
+          "jobName.$": "$.jobName"
+        }
+      },
+      "ResultPath": "$.audioS3Uri",
+      "Next": "NotifyFarmer",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ]
+    },
+    "NotifyFarmer": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "NotificationFunction",
+        "Payload": {
+          "farmerId.$": "$.farmerId",
+          "audioS3Uri.$": "$.audioS3Uri.Payload.s3Uri",
+          "responseText.$": "$.response.content[0].text",
+          "prices.$": "$.prices.Payload"
+        }
+      },
+      "ResultPath": "$.notification",
+      "Next": "Success"
+    },
+    "Success": {
+      "Type": "Succeed"
+    },
+    "TranscriptionFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "ErrorHandlerFunction",
+        "Payload": {
+          "errorType": "TranscriptionFailed",
+          "farmerId.$": "$.farmerId",
+          "error.$": "$.error"
+        }
+      },
+      "Next": "Fail"
+    },
+    "ParsingFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "ErrorHandlerFunction",
+        "Payload": {
+          "errorType": "ParsingFailed",
+          "farmerId.$": "$.farmerId",
+          "error.$": "$.error"
+        }
+      },
+      "Next": "Fail"
+    },
+    "PriceRetrievalFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "ErrorHandlerFunction",
+        "Payload": {
+          "errorType": "PriceRetrievalFailed",
+          "farmerId.$": "$.farmerId",
+          "error.$": "$.error"
+        }
+      },
+      "Next": "Fail"
+    },
+    "ResponseGenerationFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "ErrorHandlerFunction",
+        "Payload": {
+          "errorType": "ResponseGenerationFailed",
+          "farmerId.$": "$.farmerId",
+          "error.$": "$.error"
+        }
+      },
+      "Next": "Fail"
+    },
+    "SynthesisFailed": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "ErrorHandlerFunction",
+        "Payload": {
+          "errorType": "SynthesisFailed",
+          "farmerId.$": "$.farmerId",
+          "error.$": "$.error"
+        }
+      },
+      "Next": "Fail"
+    },
+    "Fail": {
+      "Type": "Fail",
+      "Error": "WorkflowFailed",
+      "Cause": "Krishi-Vani workflow failed after retries"
+    }
+  }
+}
