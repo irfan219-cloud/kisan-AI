@@ -2,7 +2,6 @@
 
 > Empowering Farmers with AI-Powered Agricultural Intelligence
 
-[![Watch Demo](https://img.shields.io/badge/▶️_Watch_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/YUFBD3C5Ed8)
 [![.NET 8](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/)
 [![AWS](https://img.shields.io/badge/AWS-Cloud-FF9900?style=flat-square&logo=amazon-aws)](https://aws.amazon.com/)
 [![License](https://img.shields.io/badge/License-Proprietary-blue?style=flat-square)](LICENSE)
@@ -31,12 +30,6 @@
 **Kisan Mitra AI** (Farmer's Friend AI) is a comprehensive, AI-powered agricultural platform designed to support farmers throughout the entire farming lifecycle. It combines cutting-edge artificial intelligence, voice recognition, computer vision, and data analytics to provide farmers with actionable insights in their local language.
 
 Think of it as a **digital agricultural advisor** that farmers can talk to, show pictures to, and get instant, personalized recommendations for their crops, soil, and market prices.
-
-### 🎥 Watch the Demo
-
-**See Kisan Mitra AI in action:** [https://youtu.be/YUFBD3C5Ed8](https://youtu.be/YUFBD3C5Ed8)
-
-**See the Blog On Builder:** [https://builder.aws.com/content/3AnYuaQB0anjlhInVc8rkljE1mZ/empowering-indian-farmers-with-amazon-nova-pro-building-kisan-mitra-ai](https://builder.aws.com/content/3AnYuaQB0anjlhInVc8rkljE1mZ/empowering-indian-farmers-with-amazon-nova-pro-building-kisan-mitra-ai)
 
 ---
 
@@ -574,5 +567,3 @@ This project is proprietary software. Unauthorized copying, distribution, or mod
 ---
 
 **Made with ❤️ for Indian Farmers**
-
-[![Watch Demo](https://img.shields.io/badge/▶️_Watch_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/YUFBD3C5Ed8)
